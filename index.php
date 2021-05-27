@@ -18,7 +18,7 @@
 <?php
 session_start();
 
-include $_SERVER['DOCUMENT_ROOT'].'/data/evote.php';
+include 'data/evote.php';
 require 'index/classes/TableGenerator.php';
 require 'index/classes/MenuGenerator.php';
 require 'data/RandomInfo.php';
@@ -112,7 +112,7 @@ $randomString = new RandomInfo();
     </div>
 
     <!-- Main content -->
-    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="min-height: 92vh">
 <?php
 
 
@@ -135,7 +135,7 @@ $randomString = new RandomInfo();
     if(isset($nav[1])){
         $page = $nav[1];
     }
-    $configured = file_exists($_SERVER['DOCUMENT_ROOT'].'/data/config.php');
+    $configured = file_exists('data/config.php');
     if(!$configured){
         echo '<h4>E-vote måste konfigureras</h4>';
     }elseif($module == 'vote'){
@@ -205,14 +205,19 @@ $randomString = new RandomInfo();
     }
 
 ?>
-
     </div>
-
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="/js/bootstrap.min.js"></script>
+    <!-- Footer -->
+    <footer class="text-center col-sm-offset-3">
+        <div class="text-center p-3">
+            <p>Skapad av Informationsutskottet inom E-sektionen inom TLTH<p>
+            <p>E-vote är öppen och fri mjukvara licenserad under MPL-2.0. Källkod hittas på <a href="https://github.com/esek/evote" target="_blank">github.com/esek/evote</a></p>
+        </div>
+    </footer>
 </body>
 
 </html>

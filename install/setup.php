@@ -1,10 +1,10 @@
 <?php
-require $_SERVER['DOCUMENT_ROOT'].'/data/RandomInfo.php';
-require $_SERVER['DOCUMENT_ROOT'].'/data/Dialogue.php';
+require '../data/RandomInfo.php';
+require '../data/Dialogue.php';
 $dialogue = new dialogue();
 
 $startup = true;
-$filename = $_SERVER['DOCUMENT_ROOT'].'/data/config.php';
+$filename = '../data/config.php';
 if (file_exists($filename)) {
     $startup = false;
 }
@@ -46,7 +46,7 @@ if (isset($_POST['db_host']) &&
             
             function generatePepper(){
                 // $6$ denotes SHA-512
-                return "$6$".substr(strtr(base64_encode(hex2bin(generateRandomToken(32))), "+", "."), 0, 44)."$";
+                return substr(strtr(base64_encode(hex2bin(generateRandomToken(32))), "+", "."), 0, 44);
             }
 
             $local_const_hash_pepper = generatePepper();
@@ -58,7 +58,7 @@ if (isset($_POST['db_host']) &&
             $content .= "define(\"MYSQL_DB\", \"$db_name\");\n";
             $content .= "define(\"MYSQL_HOST\", \"$db_host\");\n";
             $content .= "define(\"SUPERUSER\", \"$su_name\");\n";
-            $content .= "define(\"LOCAL_CONST_HASH_PEPPER\", \"$local_const_hash_pepper\");\n"; // Used for personal codes, needs to be constant
+            $content .= "define(\"LOCAL_CONST_HASH_PEPPER\", \"$6$\".\"$local_const_hash_pepper\".\"$\");\n"; // Used for personal codes, needs to be constant
             $content .= '?>';
 
             $file = fopen($filename, 'w') or die('Unable to open file!');
@@ -66,7 +66,7 @@ if (isset($_POST['db_host']) &&
             fclose($file);
             $dialogue->appendMessage('Konfigurationen lyckades!', 'success');
 
-            include $_SERVER['DOCUMENT_ROOT'].'/data/evote.php';
+            include '../data/evote.php';
             $evote = new Evote();
             if(!$evote->usernameExists($su_name)){
                 $evote->createNewUser($su_name, $su_pass1, 0);
